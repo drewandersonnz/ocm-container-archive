@@ -18,14 +18,24 @@ As the kube token is stored locally inside the container, and the container is d
 
 # Instructions
 
+## Build
+
 ```bash
 make build # build the empty container image
-cp templates/ocm-stage.source.template ocm-stage.source
-cp templates/ocm-prod.source.template ocm-prod.source
-vim -p ocm-*.source; # add your offline access token to env.source
+```
+
+## Configure
+
+```bash
+cp templates/ocm-stage.source.template ~/.ocm-stage.source
+cp templates/ocm-prod.source.template ~/.ocm-prod.source
+vim -p ~/.ocm-*.source; # add your offline access token to env.source
 ```
 
 For offline token see [Offline Access Token](https://cloud.redhat.com/openshift/token)
+
+
+## Use
 
 You are now ready..
 
@@ -48,6 +58,13 @@ Welcome! See 'oc help' to get started.
 ```
 
 Note the bash PS1 also shows which cluster you are in, helpful to determine when you have multiple sessions open.
+
+TIP: use an alias so this can be run from anywhere at any time
+```bash
+echo 'alias ocmc="~/source/ocm-container/ocm-container.sh"' >> ~/.bashrc
+. .bashrc
+ocmc stage
+```
 
 # Configuration
 

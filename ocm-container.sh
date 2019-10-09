@@ -11,7 +11,7 @@ then
     exit 1
 fi
 
-source "ocm-$OCM_ENV.source"
+source "$HOME/.ocm-$OCM_ENV.source"
 
 podman run -it --rm \
     -e "OFFLINE_ACCESS_TOKEN=${OFFLINE_ACCESS_TOKEN}" \
