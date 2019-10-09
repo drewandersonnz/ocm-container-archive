@@ -1,0 +1,9 @@
+export OCM_URL="https://api.openshift.com"
+export CLUSTER_USERNAME="$USER"
+export CONTAINER_PS1="[\u@\h \W] (\[\033[0;32m\]$OCM_CLUSTER\[\033[0m\]@\[\033[0;31m\]$OCM_ENV\[\033[0m\])\\$ "
+
+export OFFLINE_ACCESS_TOKEN="\
+your\
+token\
+here\
+"

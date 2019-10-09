@@ -19,9 +19,10 @@ As the kube token is stored locally inside the container, and the container is d
 # Instructions
 
 ```bash
-./build.sh # build the empty container image
-cp env.source.sample env.source;
-vim env.source; # add your offline access token to env.source
+make build # build the empty container image
+cp templates/ocm-stage.source.template ocm-stage.source
+cp templates/ocm-prod.source.template ocm-prod.source
+vim -p ocm-*.source; # add your offline access token to env.source
 ```
 
 For offline token see [Offline Access Token](https://cloud.redhat.com/openshift/token)
@@ -29,12 +30,12 @@ For offline token see [Offline Access Token](https://cloud.redhat.com/openshift/
 You are now ready..
 
 ```bash
-$ ./ocm-container.sh # note no params -- will list clusters
-$ ./ocm-container.sh osd-v4stg-aws # note $1 == clusterid
+$ ./ocm-container.sh stage # note no cluster params -- will list clusters
+$ ./ocm-container.sh stage mytestcluster # note $2 == clusterid or clustername
 Will login to cluster:
- Name: osd-v4stg-aws
+ Name: mytestcluster
  ID: 15uq.....
-Authentication required for https://api.osd-v4stg-aws.....com:6443 (openshift)
+Authentication required for https://api.mytestcluster.....com:6443 (openshift)
 Username: <kerberos>
 Password:
 Login successful.
@@ -43,7 +44,18 @@ You have access to 54 projects, the list has been suppressed. You can list all p
 
 Using project "default".
 Welcome! See 'oc help' to get started.
-[root@9173034342c0 /] (osd-v4stg-aws)#
+[root@9173034342c0 /] (myuser@mytestcluster)#
 ```
 
 Note the bash PS1 also shows which cluster you are in, helpful to determine when you have multiple sessions open.
+
+# Configuration
+
+There are several environment variables setup in each config file (i.e. ocm-{stage,prod}.source):
+
+* `OCM_URL` - the URL for the OCM API
+* `CLUSTER_USERNAME` - the user you use to login to the OCP cluster, defaults to `$USER`
+* `CONTAINER_PS1` - a colorized PS1 for use within the container
+* `OFFLINE_ACCESS_TOKEN` - your offline access token
+
+You must set `OFFLINE_ACCESS_TOKEN`.  If your local username isn't the same username you login to clusters with you'll have to update that as well.  The others can be left at the default.
