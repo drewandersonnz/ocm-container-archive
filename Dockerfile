@@ -9,6 +9,7 @@ RUN yum -y install \
     wget \
     vim-enhanced \
     golang && \
+    yum update -y && \
     yum clean all 
 
 RUN go get -u github.com/openshift-online/ocm-cli/cmd/ocm;
