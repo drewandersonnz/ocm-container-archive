@@ -92,3 +92,17 @@ with the clusterID, you only need to:
 - copy the `shuttle` command to another terminal
 - grab the token
 - run the login.sh command again and use it to log in
+
+# FAQ
+## I get a 'Failed to create  OCM connection' while the contianer is running
+if you get the error:
+
+```
+Error: Failed to create OCM connection: Tokens have expired, run the 'login' command
+```
+
+you can re-login quickly with
+
+```
+ocm-login.sh
+```
