@@ -2,7 +2,7 @@
 
 CLUSTERID=$1
 
-source ./login-ocm.sh;
+source ./relogin-ocm.sh;
 
 if [ "${CLUSTERID}" != "" ]; then
     oc logout 2>/dev/null

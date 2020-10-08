@@ -104,5 +104,5 @@ Error: Failed to create OCM connection: Tokens have expired, run the 'login' com
 you can re-login quickly with
 
 ```
-ocm-login.sh
+./relogin-ocm.sh
 ```
