@@ -27,7 +27,6 @@ ARG moactlversion=v0.0.5
 ARG awsclient=awscli-exe-linux-x86_64.zip
 ARG osdctlversion=v0.2.0
 ARG veleroversion=v1.5.1
-ARG kustomizeversion=v3@v3.5.4
 ARG controllergenversion=v0.3.0
 
 RUN ./install/install.sh

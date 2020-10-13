@@ -15,6 +15,11 @@ pushd /usr/local/controller-gen;
 
 remove_coloring go mod init tmp;
 remove_coloring go get -v -u sigs.k8s.io/controller-tools/cmd/controller-gen@${controllergenversion};
+if [[ ! -f /root/go/bin/controller-gen ]]
+then 
+	echo "the binary was not in the GOBIN, exiting"
+	exit 1
+fi
 ln -s /root/go/bin/controller-gen /usr/local/bin/controller-gen;
 
 popd

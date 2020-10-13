@@ -7,7 +7,6 @@ fi
 
 echo "in container";
 
-
 echo "Installing moactl"
 ./install/install-moactl.sh
 
