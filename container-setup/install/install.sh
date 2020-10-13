@@ -7,6 +7,7 @@ fi
 
 echo "in container";
 
+
 echo "Installing moactl"
 ./install/install-moactl.sh
 
@@ -28,8 +29,15 @@ echo "Installing osdctl"
 echo "Installing Velero"
 ./install/install-velero.sh
 
+echo "Installing kustomize"
+./install/install-kustomize.sh
+
+echo "Installing controller-gen"
+./install/install-controller-gen.sh
+
 echo "Installing Utilities"
 ./install/install-utils.sh
+
 
 cat /container-setup/install/bashrc_supplement.sh >> ~/.bashrc
 
