@@ -35,6 +35,7 @@ RUN ./install/install-aws.sh
 RUN ./install/install-kube_ps1.sh
 RUN ./install/install-osdctl.sh
 RUN ./install/install-velero.sh
+RUN ./install/install-cluster-login.sh
 RUN ./install/install-utils.sh
 
 RUN cat /container-setup/install/bashrc_supplement.sh >> ~/.bashrc
