@@ -13,6 +13,7 @@ Related tools added to image:
 * Uses ephemeral containers per cluster login, keeping seperate `.kube` configuration and credentials.
 * Credentials are destroyed on container exit (container has `--rm` flag set)
 * Displays current cluster-name, and OpenShift project (`oc project`) in bash PS1
+* Ability to login to private clusters without using a browser
 
 ## Getting Started:
 
@@ -25,6 +26,7 @@ Related tools added to image:
   * set your OFFLINE_ACCESS_TOKEN (from [cloud.redhat.com](https://cloud.redhat.com/))
 * optional: configure alias in `~/.bashrc`
   * alias ocm-container-stg="OCM_URL=staging ocm-container"
+  * set your kerberos username if it's different than your OCM_USER
 
 ### Build:
 
@@ -72,23 +74,14 @@ This tool also can tunnel into private clusters.
 ```
 $ ocm-container-stg
 [staging] # ./login.sh
-[staging] # ocm tunnel --cluster test-cluster -- --dns
+[staging] # ocm tunnel --cluster test-cluster -- --dns &
 Will create tunnel to cluster:
  Name: test-cluster
  ID: 01234567890123456789012345678901
 
 # /usr/bin/sshuttle --remote sre-user@ssh-url.test-cluster.mycluster.com 10.0.0.0/16 172.31.0.0/16 --dns
 client: Connected.
-^Z
-[1]+  Stopped     ocm tunnel --cluster test-cluster -- --dns
-[staging] # bg 1
-[1]+ ocm tunnel --cluster test-cluster -- --dns &
-[staging] # ocm cluster login test-cluster --console
-Will login to cluster:
- Name: test-cluster
- ID: 01234567890123456789012345678901
- Console URL: https://console.apps.test-cluster.mycluster.com
-[staging] # oc login --token AAABBBCCCDDDEEEFFFGGGHHH myuser@api.apps.test-cluster.mycluster.com
+[staging] # cluster-login -c 01234567890123456789012345678901
 Login successful.
 
 You have access to 67 projects, the list has been suppressed. You can list all projects with 'oc projects'
@@ -98,7 +91,10 @@ Welcome! See 'oc help' to get started.
 [staging] (test-cluster) #
 ```
 
-with the clusterID, you only need to:
-- copy the `sshuttle` command to another terminal
-- grab the token
-- run the ocm cluster login command again and use it to log in
+Tunneling to private clusters requires you to run the kinit program to generate a kerberos ticket. (I'm not sure if it needs the -f flag set for forwardability, but I've been setting it).  I use the following command (outside the container):
+
+```
+kinit -f -c $KRB5CCFILE
+```
+
+where $KRB5CCFILE is exported to `/tmp/krb5cc` in my .bashrc.
