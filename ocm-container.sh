@@ -31,6 +31,7 @@ fi
 ${CONTAINER_SUBSYS} run -it --rm --privileged \
 -e "OCM_URL=${OCM_URL}" \
 -e "SSH_AUTH_SOCK=/tmp/ssh.sock" \
+-e "KRB5CCFILE=/tmp/krb5cc" \
 -v ${CONFIG_DIR}:/root/.config/ocm-container:ro \
 ${SSH_AGENT_MOUNT} \
 -v ${HOME}/.ssh:/root/.ssh:ro \
