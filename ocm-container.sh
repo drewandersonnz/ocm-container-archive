@@ -7,7 +7,7 @@ cd $(dirname $0)
 CONFIG_DIR=${HOME}/.config/ocm-container
 export OCM_CONTAINER_CONFIGFILE="$CONFIG_DIR/env.source"
 
-export OCM_CONTAINER_KRB5CC_FILE=/tmp/krb5cc
+export OCM_CONTAINER_KRB5CC_FILE=${KRB5CCFILE:-/tmp/krb5cc_$UID}
 
 if [ ! -f ${OCM_CONTAINER_CONFIGFILE} ]; then
     echo "Cannot find config file at $OCM_CONTAINER_CONFIGFILE";

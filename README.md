@@ -98,3 +98,7 @@ kinit -f -c $KRB5CCFILE
 ```
 
 where $KRB5CCFILE is exported to `/tmp/krb5cc` in my .bashrc.
+
+You can also set defaults on forwardability or cache file location, however that's outside the scope of `ocm-container`.
+
+On a Mac, it seems that it doesn't follow the default kinit functionality where /tmp/krb5cc_$UID is the default cache file location, so you have to explicitly set it with an env var.  If you're troubleshooting this, it might help to run `kdestroy -A` to remove all previous cache files, and run `kinit` with the `-V` to display where it's outputting the cache file.  On my machine, it was originally attempting to put this into an API location that's supposed to be windows specific.
