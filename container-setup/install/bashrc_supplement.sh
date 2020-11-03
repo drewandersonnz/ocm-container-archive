@@ -23,3 +23,6 @@ function ocm_environment() {
 	export ENV_OCM_URL=${OCM_URL:-production}
 	echo "{$(tput setaf 2)${ENV_OCM_URL}$(tput sgr0)}"
 }
+
+# note that the PATH will be set only in build time, so changing it after won't work
+export PATH=${OCM_PATH_PRE}:${PATH}:${OCM_PATH_POST}

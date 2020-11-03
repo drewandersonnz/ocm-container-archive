@@ -27,11 +27,13 @@ fi
 
 ### start container
 ${CONTAINER_SUBSYS} run -it --rm --privileged \
+-e "OCM_PATH_POST" \
+-e "OCM_PATH_PRE" \
 -e "OCM_URL=${OCM_URL}" \
 -e "SSH_AUTH_SOCK=/tmp/ssh.sock" \
--v ${CONFIG_DIR}:/root/.config/ocm-container:ro \
 ${SSH_AGENT_MOUNT} \
--v ${HOME}/.ssh:/root/.ssh:ro \
--v ${HOME}/.aws/credentials:/root/.aws/credentials:ro \
+-v ${CONFIG_DIR}:/root/.config/ocm-container:ro \
 -v ${HOME}/.aws/config:/root/.aws/config:ro \
+-v ${HOME}/.aws/credentials:/root/.aws/credentials:ro \
+-v ${HOME}/.ssh:/root/.ssh:ro \
 ocm-container ${SSH_AUTH_ENABLE} /bin/bash 
