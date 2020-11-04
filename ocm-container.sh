@@ -7,8 +7,6 @@ cd $(dirname $0)
 CONFIG_DIR=${HOME}/.config/ocm-container
 export OCM_CONTAINER_CONFIGFILE="$CONFIG_DIR/env.source"
 
-export OCM_CONTAINER_KRB5CC_FILE=${KRB5CCNAME:-/tmp/krb5cc_$UID}
-
 if [ ! -f ${OCM_CONTAINER_CONFIGFILE} ]; then
     echo "Cannot find config file at $OCM_CONTAINER_CONFIGFILE";
     echo "Run the init.sh file to create one."
@@ -18,6 +16,7 @@ fi
 
 source ${OCM_CONTAINER_CONFIGFILE}
 
+### SSH Agent Mounting
 operating_system=`uname`
 
 SSH_AGENT_MOUNT="-v ${SSH_AUTH_SOCK}:/tmp/ssh.sock:ro"
@@ -27,16 +26,23 @@ then
   SSH_AGENT_MOUNT="--mount type=bind,src=/run/host-services/ssh-auth.sock,target=/tmp/ssh.sock,readonly"
 fi
 
+### Kerberos Ticket Mounting
+OCM_CONTAINER_KRB5CC_FILE=${KRB5CCNAME:-/tmp/krb5cc_$UID}
+if [ -f $OCM_CONTAINER_KRB5CC_FILE ]
+then
+  KRB5CCFILEMOUNT="-v ${OCM_CONTAINER_KRB5CC_FILE}:/tmp/krb5cc:ro"
+fi
+
 ### start container
 ${CONTAINER_SUBSYS} run -it --rm --privileged \
 -e "OCM_URL=${OCM_URL}" \
 -e "SSH_AUTH_SOCK=/tmp/ssh.sock" \
 -e "KRB5CCNAME=/tmp/krb5cc" \
 -v ${CONFIG_DIR}:/root/.config/ocm-container:ro \
-${SSH_AGENT_MOUNT} \
 -v ${HOME}/.ssh:/root/.ssh:ro \
 -v ${HOME}/.aws/credentials:/root/.aws/credentials:ro \
 -v ${HOME}/.aws/config:/root/.aws/config:ro \
+${SSH_AGENT_MOUNT} \
+${KRB5CCFILEMOUNT} \
 ${OCM_CONTAINER_LAUNCH_OPTS} \
--v ${OCM_CONTAINER_KRB5CC_FILE}:/tmp/krb5cc:ro \
 ocm-container ${SSH_AUTH_ENABLE} /bin/bash 
