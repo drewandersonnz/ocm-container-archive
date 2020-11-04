@@ -1,0 +1,29 @@
+#!/bin/bash -e
+
+if [ -z $1 ]
+then
+  echo "First parameter must be a cluster"
+  exit 1
+fi
+
+# Login to OCM first
+ocm-login > /dev/null
+
+echo "Logging into cluster $1"
+
+# Check if we need to create a tunnel and save the ID
+ocmjson=$(ocm describe cluster --json $1)
+cluster_id=$(jq -r '.id' <<< "$ocmjson")
+cluster_listening=$(jq -r '.api.listening' <<< "$ocmjson")
+
+# Initialize Tunnel if needed
+if [ $cluster_listening == "internal" ]
+then
+  ocm tunnel "$cluster_id" > tunnel.log &
+  echo -n "Cluster is internal. Initializing Tunnel... "
+  sleep 5
+  echo "Logging In..."
+fi
+
+# Login to the Cluster
+cluster-login -c "$cluster_id"
