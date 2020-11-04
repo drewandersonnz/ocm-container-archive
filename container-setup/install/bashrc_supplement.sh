@@ -1,5 +1,7 @@
 #!/bin/bash
 
+for FILE in ${HOME}/bashrc.d/*.bashrc ; do source ${FILE} ; done
+
 source /usr/local/kube_ps1/kube-ps1.sh
 
 ## Set Defaults

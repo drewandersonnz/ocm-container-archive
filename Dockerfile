@@ -37,6 +37,7 @@ RUN ./install/install-osdctl.sh
 RUN ./install/install-velero.sh
 RUN ./install/install-utils.sh
 
+RUN mv /container-setup/install/bashrc.d/ /root/bashrc.d/
 RUN cat /container-setup/install/bashrc_supplement.sh >> ~/.bashrc
 
 RUN rm -rf /container-setup
