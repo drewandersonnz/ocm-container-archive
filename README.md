@@ -45,6 +45,11 @@ OCM_CONTAINER_LAUNCH_OPTS="-v ~/work/myproject:/root/myproject" ocm-container
 
 Launch options provide you a way to add other volumes, add environment variables, or anything else you would need to do to run ocm-container the way you want to.
 
+### Automatic Login to a cluster:
+```
+ocm-container my-cluster-id
+```
+
 ## Example:
 
 ### Public Clusters
@@ -102,3 +107,8 @@ where $KRB5CCFILE is exported to `/tmp/krb5cc` in my .bashrc.
 You can also set defaults on forwardability or cache file location, however that's outside the scope of `ocm-container`.
 
 On a Mac, it seems that it doesn't follow the default kinit functionality where /tmp/krb5cc_$UID is the default cache file location, so you have to explicitly set it with an env var.  If you're troubleshooting this, it might help to run `kdestroy -A` to remove all previous cache files, and run `kinit` with the `-V` to display where it's outputting the cache file.  On my machine, it was originally attempting to put this into an API location that's supposed to be windows specific.
+
+### Automatic Login
+We've built in functionality to simplify the cluster login steps.  Now within the contianer you can run `sre-login cluster-id` and it will refresh your ocm login, create a tunnel within the container if necessary, and then log-in to the cluster.
+
+`sre-login` accepts both a cluster-name or a cluster-id.  If the cluster-name is not unique, it will not ask which one, but display the clusters and exit.
