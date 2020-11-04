@@ -1,5 +1,8 @@
 #!/bin/bash
 
+### Alternate image name, for testing, etc
+IMAGE="${1:-ocm-container}"
+
 ### cd locally
 cd $(dirname $0)
 
@@ -18,7 +21,7 @@ source ${OCM_CONTAINER_CONFIGFILE}
 
 operating_system=`uname`
 
-SSH_AGENT_MOUNT="-v ${SSH_AUTH_SOCK}:/tmp/ssh.sock:ro"
+SSH_AGENT_MOUNT="--volume ${SSH_AUTH_SOCK}:/tmp/ssh.sock:ro"
 
 if [[ "$operating_system" == "Darwin" ]]
 then
@@ -26,13 +29,17 @@ then
 fi
 
 ### start container
-${CONTAINER_SUBSYS} run -it --rm --privileged \
--e "OCM_URL=${OCM_URL}" \
--e "SSH_AUTH_SOCK=/tmp/ssh.sock" \
--v ${CONFIG_DIR}:/root/.config/ocm-container:ro \
-${SSH_AGENT_MOUNT} \
--v ${HOME}/.ssh:/root/.ssh:ro \
--v ${HOME}/.aws/credentials:/root/.aws/credentials:ro \
--v ${HOME}/.aws/config:/root/.aws/config:ro \
-${OCM_CONTAINER_LAUNCH_OPTS} \
-ocm-container ${SSH_AUTH_ENABLE} /bin/bash 
+${CONTAINER_SUBSYS} run \
+    --interactive \
+    --tty \
+    --rm \
+    --privileged \
+    --env "OCM_URL=${OCM_URL}" \
+    --env "SSH_AUTH_SOCK=/tmp/ssh.sock" \
+    --volume ${CONFIG_DIR}:/root/.config/ocm-container:ro \
+    ${SSH_AGENT_MOUNT} \
+    --volume ${HOME}/.ssh:/root/.ssh:ro \
+    --volume ${HOME}/.aws/credentials:/root/.aws/credentials:ro \
+    --volume ${HOME}/.aws/config:/root/.aws/config:ro \
+    ${OCM_CONTAINER_LAUNCH_OPTS} \
+    ${IMAGE} ${SSH_AUTH_ENABLE} /bin/bash
