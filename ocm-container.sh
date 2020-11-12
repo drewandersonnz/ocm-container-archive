@@ -53,4 +53,4 @@ ${INITIAL_CLUSTER_LOGIN} \
 ${SSH_AGENT_MOUNT} \
 ${KRB5CCFILEMOUNT} \
 ${OCM_CONTAINER_LAUNCH_OPTS} \
-ocm-container ${SSH_AUTH_ENABLE} /bin/bash
+ocm-container

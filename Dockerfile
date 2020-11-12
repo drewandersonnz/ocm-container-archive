@@ -47,3 +47,4 @@ ENV PATH "$PATH:/root/utils"
 RUN rm -rf /container-setup
 
 WORKDIR /root
+ENTRYPOINT ["/bin/bash"]
