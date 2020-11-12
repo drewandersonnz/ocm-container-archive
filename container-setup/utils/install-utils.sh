@@ -8,9 +8,6 @@ fi
 echo "in container";
 
 mkdir -p ${HOME}/utils
-mkdir -p /etc/profile.d
-echo "export PATH=${PATH}:${HOME}/utils" > /etc/profile.d/localbin.sh
-chmod +x /etc/profile.d/localbin.sh
 
 mv /container-setup/utils/bin/* ${HOME}/utils
 

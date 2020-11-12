@@ -12,6 +12,8 @@ RUN yum -y install \
     jq \
     make \
     procps-ng \
+    python-pip \
+    python3-requests-kerberos \
     rsync \
     sshuttle \
     vim-enhanced \
@@ -41,6 +43,7 @@ ADD ./container-setup/utils /container-setup/utils
 WORKDIR /container-setup/utils
 RUN ./install-utils.sh
 
+ENV PATH "$PATH:/root/utils"
 RUN rm -rf /container-setup
 
 WORKDIR /root

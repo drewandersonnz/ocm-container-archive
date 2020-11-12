@@ -53,6 +53,8 @@ clusterjson=$(get_cluster_json $1)
 cluster_id=$(jq -r '.id' <<< "$clusterjson")
 cluster_listening=$(jq -r '.api.listening' <<< "$clusterjson")
 
+echo "Cluster ID: $cluster_id"
+
 # Initialize Tunnel if needed
 if [ $cluster_listening == "internal" ]
 then
