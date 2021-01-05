@@ -1,3 +1,8 @@
+# DEPRECATED
+
+This project has moved to the OpenShift Organisation and can be found here:
+https://github.com/openshift/ocm-container
+
 # ocm-container
 
 A quick environment for accessing OpenShift v4 clusters. Nothing fancy, gets the job done.
