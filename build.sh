@@ -1,5 +1,8 @@
 #!/bin/bash
 
+### Alternate image name, for testing, etc
+IMAGE="${1:-ocm-container}"
+
 ### cd locally
 cd $(dirname $0)
 
@@ -41,8 +44,7 @@ date -u
 # we want the $@ args here to be re-split
 time ${CONTAINER_SUBSYS}  build \
   --build-arg osv4client=${osv4client} \
-  $@ \
-  -t ocm-container .
+  --tag ${IMAGE} .
 
 # for time tracking
 date
